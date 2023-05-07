@@ -89,6 +89,7 @@ class ContactsFragment : Fragment() {
         }
 
 
+
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search_menu -> {
