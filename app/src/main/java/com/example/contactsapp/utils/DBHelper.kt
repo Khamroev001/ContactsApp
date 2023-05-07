@@ -1,0 +1,72 @@
+package com.example.contactsapp.utils
+
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import com.example.contactsapp.R
+import com.example.contactsapp.model.Contact
+
+class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+    companion object{
+        const val DB_NAME = "contact"
+        const val DB_VERSION = 1
+    }
+
+    override fun onCreate(p0: SQLiteDatabase?) {
+        var query = "create table 'contact'('id' integer PRIMARY KEY AUTOINCREMENT, 'name' TEXT NOT NULL, 'phone_number' INTEGER NOT NULL)"
+        p0?.execSQL(query)
+    }
+
+    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
+
+    }
+
+    fun addContact(contact: Contact){
+        val writabledb = this.writableDatabase
+        val values = ContentValues().apply {
+            put("name", contact.name)
+            put("phone_number", contact.phone)
+        }
+        writabledb.insert("contact",null,values)
+    }
+
+    fun getContacts(): MutableList<Contact> {
+        val contacts = mutableListOf<Contact>()
+        val db = this.readableDatabase
+        val cursor = db.query("contact", null, null, null, null, null, null)
+        with(cursor) {
+            while (moveToNext()) {
+                val name = getString(getColumnIndexOrThrow("name"))
+                val phone = getString(getColumnIndexOrThrow("phone_number"))
+                contacts.add(Contact(name,phone))
+            }
+        }
+        cursor.close()
+        return contacts
+    }
+    @SuppressLint("Range")
+    fun getContactsFilteredByName(searchText: String): List<Contact> {
+        val contacts = mutableListOf<Contact>()
+        val selectQuery = "SELECT * FROM contact WHERE name LIKE '%$searchText%'"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex("id"))
+                val name = cursor.getString(cursor.getColumnIndex("name"))
+                val phone = cursor.getString(cursor.getColumnIndex("phone_number"))
+                val contact = Contact(name, phone)
+                contacts.add(contact)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return contacts
+    }
+
+
+
+
+}
