@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.example.contactsapp.ContactsFragment"
+        android:name="com.example.contactsapp.fragments.ContactsFragment"
         android:label="fragment_contacts"
         tools:layout="@layout/fragment_contacts" >
         <action
@@ -19,16 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/viewFragment"
-        android:name="com.example.contactsapp.ViewFragment"
+        android:name="com.example.contactsapp.fragments.ContactDetailFragment"
         android:label="fragment_view"
-        tools:layout="@layout/fragment_view" />
+        tools:layout="@layout/fragment_contact_detail" />
     <fragment
         android:id="@+id/addContactFragment"
-        android:name="com.example.contactsapp.AddContactFragment"
+        android:name="com.example.contactsapp.fragments.AddContactFragment"
         android:label="fragment_add_contact"
-        tools:layout="@layout/fragment_add_contact" >
-        <action
-            android:id="@+id/action_addContactFragment_to_contactsFragment"
-            app:destination="@id/contactsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_add_contact" />
 </navigation>
