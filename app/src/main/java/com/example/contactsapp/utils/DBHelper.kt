@@ -14,7 +14,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     }
 
     override fun onCreate(p0: SQLiteDatabase?) {
-        var query = "create table 'contact'('id' integer PRIMARY KEY AUTOINCREMENT, 'name' TEXT NOT NULL, 'phone_number' INTEGER NOT NULL)"
+        val query = "create table 'contact'('id' integer PRIMARY KEY AUTOINCREMENT, 'name' TEXT NOT NULL, 'phone_number' INTEGER NOT NULL)"
         p0?.execSQL(query)
     }
 
@@ -52,7 +52,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor.moveToFirst()) {
             do {
-                val id = cursor.getInt(cursor.getColumnIndex("id"))
+                cursor.getInt(cursor.getColumnIndex("id"))
                 val name = cursor.getString(cursor.getColumnIndex("name"))
                 val phone = cursor.getString(cursor.getColumnIndex("phone_number"))
                 val contact = Contact(name, phone)
