@@ -1,7 +1,6 @@
 package com.example.contactsapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +25,10 @@ class AddContactFragment : Fragment() {
 
         binding.addCheck.setOnClickListener {
             if (binding.name.text.toString().isNotEmpty() && binding.phonenumber.text.toString().isNotEmpty()) {
-                myDb.addContact(Contact(binding.name.text.toString(), binding.phonenumber.text.toString()))
+                myDb.addContact(Contact(
+                    name = binding.name.text.toString(),
+                    phone = binding.phonenumber.text.toString()
+                ))
                 Toast.makeText(requireContext(), "New contact has been added", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
             } else {

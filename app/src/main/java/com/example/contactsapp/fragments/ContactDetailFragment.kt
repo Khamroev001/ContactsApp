@@ -22,7 +22,7 @@ class ContactDetailFragment : Fragment() {
         binding.phone.text = contact.phone
 
         binding.delete.setOnClickListener {
-            Dialog().show(parentFragmentManager,"myDialog")
+            Dialog(contact).show(parentFragmentManager,"myDialog")
         }
         return binding.root
     }
