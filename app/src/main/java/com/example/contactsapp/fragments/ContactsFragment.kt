@@ -39,6 +39,26 @@ class ContactsFragment : Fragment() {
         val myDb = DBHelper(requireContext())
         contacts = myDb.getContacts()
 
+        if (contacts.isEmpty()){
+          binding.box.visibility=View.VISIBLE
+        }else{
+            binding.box.visibility=View.INVISIBLE
+            var adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface {
+                override fun onClick(contact: Contact) {
+                    val bundle = bundleOf()
+                    bundle.putSerializable("contact", contact)
+                    findNavController().navigate(R.id.action_contactsFragment_to_viewFragment, bundle)
+                }
+                override fun callonClick(contact: Contact) {
+                    Toast.makeText(requireContext(),"ASASASAS",Toast.LENGTH_SHORT).show()
+                    val phoneNumber = contact.phone
+                    val intent = Intent(Intent.ACTION_CALL)
+                    intent.data = Uri.parse("tel:$phoneNumber")
+                    startActivity(intent)
+                }
+            })
+            binding.contactRv.adapter = adapter
+        }
         binding.add.setOnClickListener {
             findNavController().navigate(R.id.action_contactsFragment_to_addContactFragment)
         }
@@ -59,6 +79,13 @@ class ContactsFragment : Fragment() {
                         val bundle = bundleOf()
                         bundle.putSerializable("contact", contact)
                         findNavController().navigate(R.id.action_contactsFragment_to_viewFragment, bundle)
+                    }
+                    override fun callonClick(contact: Contact) {
+                        Toast.makeText(requireContext(),"ASASASAS",Toast.LENGTH_SHORT).show()
+                        val phoneNumber = contact.phone
+                        val intent = Intent(Intent.ACTION_CALL)
+                        intent.data = Uri.parse("tel:$phoneNumber")
+                        startActivity(intent)
                     }
                 })
                 binding.contactRv.adapter = adapter
@@ -98,42 +125,6 @@ class ContactsFragment : Fragment() {
 
         return binding.root
     }
-
-
-//    private fun makePhoneCall() {
-//        val number: String = binding..text.toString()
-//        if (number.trim { it <= ' ' }.isNotEmpty()) {
-//            if (ContextCompat.checkSelfPermission(
-//                    requireContext(),
-//                    Manifest.permission.CALL_PHONE
-//                ) != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                ActivityCompat.requestPermissions(
-//                    requireActivity(),
-//                    arrayOf(Manifest.permission.CALL_PHONE),
-//                    requestCall
-//                )
-//            } else {
-//                val dial = "tel:$number"
-//                startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
-//            }
-//        } else {
-//            Toast.makeText(requireActivity(), "Enter Phone Number", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String?>,
-//        grantResults: IntArray
-//    ) {
-//        if (requestCode == requestCall) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                makePhoneCall(
-//            } else {
-//                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
 
     private fun allContactsAdapter(isAz: Boolean = true): ContactAdapter {
         return ContactAdapter(DBHelper(requireContext()).getContacts(isAz), object : ContactAdapter.ContactInterface {

@@ -1,5 +1,8 @@
 package com.example.contactsapp.fragments
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,13 +13,14 @@ import com.example.contactsapp.databinding.FragmentContactDetailBinding
 import com.example.contactsapp.model.Contact
 
 class ContactDetailFragment : Fragment() {
+    lateinit var contact:Contact
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentContactDetailBinding.inflate(inflater, container, false)
 
-        val contact = arguments?.getSerializable("contact") as Contact
+      contact = arguments?.getSerializable("contact") as Contact
 
         binding.name.text = contact.name
         binding.phone.text = contact.phone
@@ -24,6 +28,17 @@ class ContactDetailFragment : Fragment() {
         binding.delete.setOnClickListener {
             Dialog(contact).show(parentFragmentManager,"myDialog")
         }
+        binding.call.setOnClickListener {
+            makePhoneCall()
+        }
         return binding.root
+    }
+
+    private fun makePhoneCall() {
+        val phoneNumber = contact.phone
+
+        val intent = Intent(Intent.ACTION_CALL)
+        intent.data = Uri.parse("tel:$phoneNumber")
+        startActivity(intent)
     }
 }
