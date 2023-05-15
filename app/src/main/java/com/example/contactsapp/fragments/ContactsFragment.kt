@@ -50,7 +50,6 @@ class ContactsFragment : Fragment() {
                     findNavController().navigate(R.id.action_contactsFragment_to_viewFragment, bundle)
                 }
                 override fun callonClick(contact: Contact) {
-                    Toast.makeText(requireContext(),"ASASASAS",Toast.LENGTH_SHORT).show()
                     val phoneNumber = contact.phone
                     val intent = Intent(Intent.ACTION_CALL)
                     intent.data = Uri.parse("tel:$phoneNumber")
