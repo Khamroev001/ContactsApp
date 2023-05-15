@@ -23,7 +23,7 @@ class ContactDetailFragment : Fragment() {
       contact = arguments?.getSerializable("contact") as Contact
 
         binding.name.text = contact.name
-        binding.phone.text = contact.phone
+        binding.phone.text = "+"+contact.phone
 
         binding.delete.setOnClickListener {
             Dialog(contact).show(parentFragmentManager,"myDialog")
@@ -35,7 +35,7 @@ class ContactDetailFragment : Fragment() {
     }
 
     private fun makePhoneCall() {
-        val phoneNumber = contact.phone
+        val phoneNumber = "+"+contact.phone
 
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel:$phoneNumber")

@@ -1,5 +1,6 @@
 package com.example.contactsapp.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -29,10 +30,11 @@ class ContactAdapter(private var list: MutableList<Contact>, var contInterface: 
         return ContactHolder(LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ContactHolder, position: Int) {
         var item = list[position]
         holder.name.text = item.name
-        holder.phone.text = item.phone
+        holder.phone.text = "+"+item.phone
         holder.linearLayout.setOnClickListener {
             contInterface.onClick(item)
         }
