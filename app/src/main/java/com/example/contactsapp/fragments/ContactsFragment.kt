@@ -2,12 +2,18 @@ package com.example.contactsapp.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
@@ -17,6 +23,7 @@ import com.example.contactsapp.adapters.ContactAdapter
 import com.example.contactsapp.databinding.FragmentContactsBinding
 import com.example.contactsapp.model.Contact
 import com.example.contactsapp.utils.DBHelper
+import java.util.jar.Manifest
 
 class ContactsFragment : Fragment() {
     private var contacts = mutableListOf<Contact>()
@@ -31,12 +38,6 @@ class ContactsFragment : Fragment() {
         // DB
         val myDb = DBHelper(requireContext())
         contacts = myDb.getContacts()
-
-        if (contacts.isEmpty()) {
-            binding.box.visibility = View.VISIBLE
-        } else {
-            binding.contactRv.adapter = allContactsAdapter()
-        }
 
         binding.add.setOnClickListener {
             findNavController().navigate(R.id.action_contactsFragment_to_addContactFragment)
@@ -97,6 +98,42 @@ class ContactsFragment : Fragment() {
 
         return binding.root
     }
+
+
+//    private fun makePhoneCall() {
+//        val number: String = binding..text.toString()
+//        if (number.trim { it <= ' ' }.isNotEmpty()) {
+//            if (ContextCompat.checkSelfPermission(
+//                    requireContext(),
+//                    Manifest.permission.CALL_PHONE
+//                ) != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                ActivityCompat.requestPermissions(
+//                    requireActivity(),
+//                    arrayOf(Manifest.permission.CALL_PHONE),
+//                    requestCall
+//                )
+//            } else {
+//                val dial = "tel:$number"
+//                startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
+//            }
+//        } else {
+//            Toast.makeText(requireActivity(), "Enter Phone Number", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String?>,
+//        grantResults: IntArray
+//    ) {
+//        if (requestCode == requestCall) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                makePhoneCall(
+//            } else {
+//                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     private fun allContactsAdapter(isAz: Boolean = true): ContactAdapter {
         return ContactAdapter(DBHelper(requireContext()).getContacts(isAz), object : ContactAdapter.ContactInterface {
