@@ -29,6 +29,17 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         return writableDb.insert("contact", null, values)
     }
 
+    fun editContact(contactId: Int, newName: String, newPhoneNumber: String) {
+        val writableDb = this.writableDatabase
+        val values = ContentValues().apply {
+            put("name", newName)
+            put("phone_number", newPhoneNumber)
+        }
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(contactId.toString())
+         writableDb.update("contact", values, selection, selectionArgs)
+    }
+
     fun getContacts(isAZ: Boolean = true): MutableList<Contact> {
         val contacts = mutableListOf<Contact>()
         val db = this.readableDatabase

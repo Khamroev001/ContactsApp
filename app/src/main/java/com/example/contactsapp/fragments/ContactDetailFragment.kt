@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.example.contactsapp.Dialog
+import com.example.contactsapp.R
 import com.example.contactsapp.databinding.FragmentContactDetailBinding
 import com.example.contactsapp.model.Contact
 
@@ -30,6 +33,11 @@ class ContactDetailFragment : Fragment() {
         }
         binding.call.setOnClickListener {
             makePhoneCall()
+        }
+        binding.edit.setOnClickListener {
+            val bundle = bundleOf()
+            bundle.putSerializable("contact", contact)
+            findNavController().navigate(R.id.action_viewFragment_to_editFragment,bundle)
         }
         return binding.root
     }

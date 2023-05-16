@@ -39,6 +39,8 @@ class ContactsFragment : Fragment() {
         val myDb = DBHelper(requireContext())
         contacts = myDb.getContacts()
 
+        binding.search.text.clear()
+
         if (contacts.isEmpty()){
           binding.box.visibility=View.VISIBLE
         }else{
@@ -63,7 +65,7 @@ class ContactsFragment : Fragment() {
         }
 
         binding.search.doOnTextChanged { text, start, before, count ->
-            if (count == 0) {
+            if (binding.search.text.isEmpty()) {
                 binding.search.visibility = View.GONE
                 binding.toolbar.visibility = View.VISIBLE
                 binding.search.clearFocus()
@@ -97,7 +99,6 @@ class ContactsFragment : Fragment() {
                     binding.toolbar.visibility = View.INVISIBLE
                     binding.search.isFocusable = true
                     binding.search.requestFocus()
-
                     val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(binding.search, InputMethodManager.SHOW_IMPLICIT)
 
@@ -124,6 +125,10 @@ class ContactsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        binding.search.text.clear()
+        super.onStart()
+    }
     private fun allContactsAdapter(isAz: Boolean = true): ContactAdapter {
         return ContactAdapter(DBHelper(requireContext()).getContacts(isAz), object : ContactAdapter.ContactInterface {
             override fun onClick(contact: Contact) {

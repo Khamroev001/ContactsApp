@@ -21,10 +21,25 @@
         android:id="@+id/viewFragment"
         android:name="com.example.contactsapp.fragments.ContactDetailFragment"
         android:label="fragment_view"
-        tools:layout="@layout/fragment_contact_detail" />
+        tools:layout="@layout/fragment_contact_detail" >
+        <action
+            android:id="@+id/action_viewFragment_to_editFragment"
+            app:destination="@id/editFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addContactFragment"
         android:name="com.example.contactsapp.fragments.AddContactFragment"
         android:label="fragment_add_contact"
         tools:layout="@layout/fragment_add_contact" />
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.contactsapp.fragments.EditFragment"
+        android:label="EditFragment" >
+        <action
+            android:id="@+id/action_editFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_editFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
+    </fragment>
 </navigation>
