@@ -27,7 +27,7 @@ class EditFragment : Fragment() {
         }
 
         binding.name.hint = contact.name
-        binding.phonenumber.hint = contact.phone
+        binding.phonenumber.hint = "+"+contact.phone
 
         binding.addCheck.setOnClickListener {
             if (binding.name.text.toString() != "" && binding.phonenumber.text.toString() != "") {
